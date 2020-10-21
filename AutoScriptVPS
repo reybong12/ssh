@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Delete Menu
-cd /usr/bin
+cd /usr/bin || exit
 rm menu cek usernew trial hapus member about info
-cd
-}
+cd || exit
+ 
 # set time GMT +8
 ln -fs /usr/share/zoneinfo/Asia/Kuching /etc/localtime
 
@@ -15,17 +15,17 @@ sed -i 's|screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200|screen -
 echo '10 0 * * * root delete_expired' >> /etc/crontab
 
 # Install DDOS Deflate
-cd
+cd || exit
 apt-get -y install dnsutils dsniff
 wget "https://github.com/xiihaiqal/autoscript/raw/master/Files/Others/ddos-deflate-master.zip"
 unzip ddos-deflate-master.zip
-cd ddos-deflate-master
+cd ddos-deflate-master || exit
 ./install.sh
-cd
+cd || exit
 rm -rf ddos-deflate-master.zip
 
 # Configure menu
-cd /usr/bin
+cd /usr/bin || exit
 wget https://github.com/xiihaiqal/autoscript/raw/master/Files/Menu/AutoScript_Menu.tar.gz
 tar -xzvf AutoScript_Menu.tar.gz
 rm AutoScript_Menu.tar.gz
@@ -63,9 +63,9 @@ sed -i -e 's/\r$//' user_extend
 sed -i -e 's/\r$//' user_list
 sed -i -e 's/\r$//' user_lock
 sed -i -e 's/\r$//' user_unlock
-cd
+cd || exit
 
-cd /usr/bin
+cd /usr/bin || exit
 chmod +x create
 chmod +x accounts
 chmod +x menu
@@ -101,7 +101,7 @@ chmod +x ram
 chmod +x diagnose
 chmod +x bench-network
 chmod +x speedtest
-cd
+cd || exit
 
 # grep ports 
 opensshport="$(netstat -ntlp | grep -i ssh | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
@@ -141,5 +141,6 @@ echo -e "\e[94m[][][]======================================[][][]\e[0m"
 echo -e "\e[0m                                                   "
 read -n1 -r -p "          Press Any Key To Show Continue      "
 menu
-cd
+cd || exit
+
 
