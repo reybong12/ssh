@@ -11,6 +11,10 @@ ln -fs /usr/share/zoneinfo/Asia/Kuching /etc/localtime
 # Badvpn
 sed -i 's|screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200|screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300|g' /etc/rc.local
 
+#Banner
+wget -O /etc/issue.net https://raw.githubusercontent.com/xiihaiqal/autoscript/master/Files/Others/issue.net
+sed -i 's|DROPBEAR_BANNER=.*|DROPBEAR_BANNER="/etc/issue.net"|g' /etc/default/dropbear
+
 #Menu
 cd /usr/bin
 wget https://raw.githubusercontent.com/xiihaiqal/autoscrip/master/Files/Menu/user-delete-expired
@@ -62,6 +66,6 @@ echo -e "\e[0m                                                   "
 echo -e "\e[94m[][][]======================================[][][]\e[0m"
 echo -e "\e[0m                                                   "
 read -n1 -r -p "          Press Any Key To Show Continue      "
-menu
+reboot
 cd
 
