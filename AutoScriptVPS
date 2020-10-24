@@ -2,7 +2,7 @@
 
 # Delete Menu
 cd /usr/bin
-rm cek speedtest
+rm speedtest
 cd  
 
 # set time GMT +8
@@ -19,10 +19,8 @@ sed -i 's|DROPBEAR_BANNER=.*|DROPBEAR_BANNER="/etc/issue.net"|g' /etc/default/dr
 cd /usr/bin
 wget https://raw.githubusercontent.com/xiihaiqal/autoscrip/master/Files/Menu/user-delete-expired
 wget https://raw.githubusercontent.com/xiihaiqal/autoscrip/master/Files/Menu/speedtest
-wget https://raw.githubusercontent.com/xiihaiqal/autoscrip/master/Files/Menu/cek
 chmod +x user-delete-expired
 chmod +x speedtest
-chmod +x cek
 
 # Reboot
 echo '10 0 * * * root user-delete-expired' >> /etc/crontab
