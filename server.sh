@@ -20,11 +20,11 @@ Dropbear_Port1='445'
 Dropbear_Port2='442'
 
 # Stunnel Ports
-Stunnel_Port1='446' # through Dropbear
+Stunnel_Port1='443' # through Dropbear
 Stunnel_Port2='444' # through OpenSSH
 
 # OpenVPN Ports
-OpenVPN_TCP_Port='443'
+OpenVPN_TCP_Port='1194'
 OpenVPN_UDP_Port='25222'
 
 # Privoxy Ports
@@ -37,7 +37,7 @@ Squid_Port2='8080'
 Squid_Port3='80'
 
 # OpenVPN Config Download Port
-OvpnDownload_Port='85' # Before changing this value, please read this document. It contains all unsafe ports for Google Chrome Browser, please read from line #23 to line #89: https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/net/base/port_util.cc
+OvpnDownload_Port='80' # Before changing this value, please read this document. It contains all unsafe ports for Google Chrome Browser, please read from line #23 to line #89: https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/net/base/port_util.cc
 
 # Server local time
 MyVPS_Time='Asia/Manila'
@@ -91,7 +91,7 @@ function InstUpdates(){
 function InstWebmin(){
  # Download the webmin .deb package
  # You may change its webmin version depends on the link you've loaded in this variable(.deb file only, do not load .zip or .tar.gz file):
- WebminFile='https://github.com/raziman869/AutoScriptDB/raw/master/Files/Plugins/webmin_1.920_all.deb'
+ WebminFile='http://prdownloads.sourceforge.net/webadmin/webmin_1.960_all.deb'
  wget -qO webmin.deb "$WebminFile"
  
  # Installing .deb package for webmin
