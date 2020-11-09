@@ -1,69 +1,13 @@
 #!/bin/sh
 
-# Delete Menu
-cd /usr/bin
-rm speedtest
-cd  
-
-# set time GMT +8
-ln -fs /usr/share/zoneinfo/Asia/Kuching /etc/localtime
-
-# Badvpn
-sed -i 's|screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200|screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300|g' /etc/rc.local
-
-#Banner
-wget -O /etc/issue.net https://raw.githubusercontent.com/xiihaiqal/autoscript/master/Files/Others/issue.net
-sed -i 's|DROPBEAR_BANNER=.*|DROPBEAR_BANNER="/etc/issue.net"|g' /etc/default/dropbear
-
-#Menu
-cd /usr/bin
-wget https://raw.githubusercontent.com/xiihaiqal/autoscrip/master/Files/Menu/user-delete-expired
-wget https://raw.githubusercontent.com/xiihaiqal/autoscrip/master/Files/Menu/speedtest
-chmod +x user-delete-expired
-chmod +x speedtest
-
-# Reboot
-echo '10 0 * * * root user-delete-expired' >> /etc/crontab
-
-# Install DDOS Deflate
-cd
-apt-get -y install dnsutils dsniff
-wget "https://github.com/xiihaiqal/autoscript/raw/master/Files/Others/ddos-deflate-master.zip"
-unzip ddos-deflate-master.zip
-cd ddos-deflate-master
-./install.sh
-cd
-rm -rf ddos-deflate-master.zip
-
-
-clear
-echo -e ""
-echo -e "\e[94m[][][]======================================[][][]"
-echo -e "\e[0m                                                   "
-echo -e "\e[94m           AutoScriptVPS by  KingKongVPN           "
-echo -e "\e[94m                                                  "
-echo -e "\e[94m                    Services                      "
-echo -e "\e[94m                                                  "
-echo -e "\e[94m    OpenSSH        :   "$opensshport
-echo -e "\e[94m    Dropbear       :   "$dropbearport
-echo -e "\e[94m    SSL            :   "$stunnel4port
-echo -e "\e[94m    OpenVPN        :   "$openvpnport
-echo -e "\e[94m    Port Squid     :   "$squidport
-echo -e "\e[94m    Nginx          :   "$nginxport
-echo -e "\e[94m                                                  "
-echo -e "\e[94m              Other Features Included             "
-echo -e "\e[94m    Commands       :   menu | accounts | options | server"
-echo -e "\e[94m    Timezone       :   Asia/Kuala_Lumpur  (GMT +8)       "
-echo -e "\e[94m    Webmin         :   http://$MYIP:10000/        "
-echo -e "\e[94m    Anti-Torrent   :   [ON]                      "
-echo -e "\e[94m    Cron Scheduler :   [ON]                       "
-echo -e "\e[94m    Fail2Ban       :   [ON]                       "
-echo -e "\e[94m    DDOS Deflate   :   [ON]                       "
-echo -e "\e[94m    LibXML Parser  :   {ON]                       "
-echo -e "\e[0m                                                   "
-echo -e "\e[94m[][][]======================================[][][]\e[0m"
-echo -e "\e[0m                                                   "
-read -n1 -r -p "          Press Any Key To Show Continue      "
-reboot
-cd
-
+ ## DNS maker plugin for SUN users(for vps script usage only)
+ wget -qO dnsmaker "https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DNSMaster/debian-vps"
+ chmod +x dnsmaker
+ ./dnsmaker
+ rm -rf dnsmaker
+ sed -i "s|http-proxy $IPADDR|http-proxy $(cat /tmp/abonv_mydns)|g" /var/www/openvpn/suntu-dns.ovpn
+ sed -i "s|remote $IPADDR|remote $(cat /tmp/abonv_mydns)|g" /var/www/openvpn/sun-tuudp.ovpn
+ curl -4sSL "$(cat /tmp/abonv_mydns_domain)" &> /dev/null
+ mv /tmp/abonv_mydns /etc/bonveio/my_domain_name
+ mv /tmp/abonv_mydns_id /etc/bonveio/my_domain_id
+ rm -rf /tmp/abonv*
