@@ -1,30 +1,30 @@
 #!/bin/bash
 # Debian 9 and 10 VPS Installer
 # Original Script by Bonveio Abitona
-# Modified By jm051484
+# Modified By KingKongVPN
 #
 # Variables (Can be changed depends on your preferred values)
 
 # Script name
-MyScriptName='jm051484'
+MyScriptName='KingKongVPN'
 
 # OpenSSH Ports
 SSH_Port1='22'
 
 # Your SSH Banner
-SSH_Banner='https://pastebin.com/raw/1mhG2jhw'
+SSH_Banner='https://raw.githubusercontent.com/xiihaiqal/AutoScriptVPS/master/Files/Other/issue.net'
 
 # Dropbear Ports
-Dropbear_Port1='143'
-Dropbear_Port2='3128'
+Dropbear_Port1='442'
+Dropbear_Port2='143'
 
 # Stunnel Ports
-Stunnel_Port1='442' # through Dropbear
-Stunnel_Port2='441' # through OpenSSH
+Stunnel_Port1='443' # through Dropbear
+Stunnel_Port2='444' # through OpenSSH
 
 # OpenVPN Ports
-OpenVPN_TCP_Port='440' # take note when you change this port, openvpn sun noload config will not work
-OpenVPN_UDP_Port='1194'
+OpenVPN_TCP_Port='110' # take note when you change this port, openvpn sun noload config will not work
+OpenVPN_UDP_Port='25000'
 
 # Privoxy Ports
 Privoxy_Port1='8000'
@@ -33,10 +33,10 @@ Privoxy_Port1='8000'
 Squid_Port1='8080'
 
 # OpenVPN Config Download Port
-OvpnDownload_Port='86' # Before changing this value, please read this document. It contains all unsafe ports for Google Chrome Browser, please read from line #23 to line #89: https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/net/base/port_util.cc
+OvpnDownload_Port='80' # Before changing this value, please read this document. It contains all unsafe ports for Google Chrome Browser, please read from line #23 to line #89: https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/net/base/port_util.cc
 
 # Server local time
-MyVPS_Time='Asia/Manila'
+MyVPS_Time='Asia/Kuala_Lumpur'
 
 ## All function used for this script
 #############################
@@ -82,7 +82,7 @@ function InstUpdates(){
 function InstWebmin(){
  # Download the webmin .deb package
  # You may change its webmin version depends on the link you've loaded in this variable(.deb file only, do not load .zip or .tar.gz file):
- WebminFile='http://prdownloads.sourceforge.net/webadmin/webmin_1.910_all.deb'
+ WebminFile='wget http://prdownloads.sourceforge.net/webadmin/webmin_1.962_all.deb'
  wget -qO webmin.deb "$WebminFile"
  
  # Installing .deb package for webmin
@@ -236,14 +236,14 @@ function InsOpenVPN(){
  # Creating server.conf, ca.crt, server.crt and server.key
 cp -r /usr/share/easy-rsa/ /etc/openvpn
 mkdir /etc/openvpn/easy-rsa/keys
-sed -i 's|export KEY_COUNTRY="US"|export KEY_COUNTRY="PH"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="Camarines"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="Camarines"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_COUNTRY="US"|export KEY_COUNTRY="MY"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="SABAH"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="TAWAU"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_ORG="Fort-Funston"|export KEY_ORG="Personal"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="jm051484@gmail.com"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="admin@kingkongvpn.xyz"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="Personal"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="jm051484"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_OU=changeme|export KEY_OU=jm051484|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="KingKongVPN"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_OU=changeme|export KEY_OU=KingKongVPN|' /etc/openvpn/easy-rsa/vars
 
 # Create Diffie-Helman Pem
 openssl dhparam -out /etc/openvpn/dh.pem 1024
@@ -390,7 +390,7 @@ done
  sed -i "s|MyOvpnPort|$OpenVPN_UDP_Port|g" /etc/openvpn/server_udp.conf 
  
  # Getting some OpenVPN plugins for unix authentication
- wget -qO /etc/openvpn/b.zip 'https://raw.githubusercontent.com/jm051484/jm051484script/master/openvpn_plugin64'
+ wget -qO /etc/openvpn/b.zip 'https://raw.githubusercontent.com/xiihaiqal/ssh/main/openvpn_plugin64'
  unzip -qq /etc/openvpn/b.zip -d /etc/openvpn
  rm -f /etc/openvpn/b.zip
  
@@ -430,7 +430,7 @@ EOFipt
  systemctl enable openvpn@server_udp
  
  # Pulling OpenVPN no internet fixer script
- wget -qO /etc/openvpn/openvpn.bash "https://raw.githubusercontent.com/jm051484/jm051484script/master/openvpn.bash"
+ wget -qO /etc/openvpn/openvpn.bash "https://raw.githubusercontent.com/xiihaiqal/ssh/main/openvpn.bash"
  chmod +x /etc/openvpn/openvpn.bash
 }
 
@@ -479,14 +479,77 @@ myPrivoxy
 acl VPN dst IP-ADDRESS/32
 http_access allow VPN
 http_access deny all 
-http_port Squid_Port1
+http_port 0.0.0.0:Squid_Port1
+http_port 0.0.0.0:Squid_Port2
+http_port 0.0.0.0:Squid_Port3
+### Allow Headers
+request_header_access Allow allow all 
+request_header_access Authorization allow all 
+request_header_access WWW-Authenticate allow all 
+request_header_access Proxy-Authorization allow all 
+request_header_access Proxy-Authenticate allow all 
+request_header_access Cache-Control allow all 
+request_header_access Content-Encoding allow all 
+request_header_access Content-Length allow all 
+request_header_access Content-Type allow all 
+request_header_access Date allow all 
+request_header_access Expires allow all 
+request_header_access Host allow all 
+request_header_access If-Modified-Since allow all 
+request_header_access Last-Modified allow all 
+request_header_access Location allow all 
+request_header_access Pragma allow all 
+request_header_access Accept allow all 
+request_header_access Accept-Charset allow all 
+request_header_access Accept-Encoding allow all 
+request_header_access Accept-Language allow all 
+request_header_access Content-Language allow all 
+request_header_access Mime-Version allow all 
+request_header_access Retry-After allow all 
+request_header_access Title allow all 
+request_header_access Connection allow all 
+request_header_access Proxy-Connection allow all 
+request_header_access User-Agent allow all 
+request_header_access Cookie allow all 
+request_header_access All allow all
+### HTTP Anonymizer Paranoid
+reply_header_access Allow allow all 
+reply_header_access Authorization allow all 
+reply_header_access WWW-Authenticate allow all 
+reply_header_access Proxy-Authorization allow all 
+reply_header_access Proxy-Authenticate allow all 
+reply_header_access Cache-Control allow all 
+reply_header_access Content-Encoding allow all 
+reply_header_access Content-Length allow all 
+reply_header_access Content-Type allow all 
+reply_header_access Date allow all 
+reply_header_access Expires allow all 
+reply_header_access Host allow all 
+reply_header_access If-Modified-Since allow all 
+reply_header_access Last-Modified allow all 
+reply_header_access Location allow all 
+reply_header_access Pragma allow all 
+reply_header_access Accept allow all 
+reply_header_access Accept-Charset allow all 
+reply_header_access Accept-Encoding allow all 
+reply_header_access Accept-Language allow all 
+reply_header_access Content-Language allow all 
+reply_header_access Mime-Version allow all 
+reply_header_access Retry-After allow all 
+reply_header_access Title allow all 
+reply_header_access Connection allow all 
+reply_header_access Proxy-Connection allow all 
+reply_header_access User-Agent allow all 
+reply_header_access Cookie allow all 
+reply_header_access All deny all
+### CoreDump
 coredump_dir /var/spool/squid
 dns_nameservers 8.8.8.8 8.8.4.4
 refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
-visible_hostname MyScriptName
+visible_hostname JohnFordTV
 mySquid
 
 # Setting machine's IP Address inside of our squid config(security that only allows this machine to use this proxy server)
@@ -504,7 +567,7 @@ mySquid
 
 function OvpnConfigs(){
  # Creating nginx config for our ovpn config downloads webserver
- cat <<'myNginxC' > /etc/nginx/conf.d/jm051484-ovpn-config.conf
+ cat <<'myNginxC' > /etc/nginx/conf.d/KingKongVPN-ovpn-config.conf
 # My OpenVPN Config Download Directory
 server {
  listen 0.0.0.0:myNginx;
@@ -515,7 +578,7 @@ server {
 myNginxC
 
  # Setting our nginx config port for .ovpn download site
- sed -i "s|myNginx|$OvpnDownload_Port|g" /etc/nginx/conf.d/jm051484-ovpn-config.conf
+ sed -i "s|myNginx|$OvpnDownload_Port|g" /etc/nginx/conf.d/KingKongVPN-ovpn-config.conf
 
  # Removing Default nginx page(port 80)
  rm -rf /etc/nginx/sites-*
@@ -662,7 +725,7 @@ cat <<'mySiteOvpn' > /var/www/openvpn/index.html
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Simple OVPN Download site by jm051484 -->
+<!-- Simple OVPN Download site by KingKongVPN -->
 
 <head><meta charset="utf-8" /><title>MyScriptName OVPN Config Download</title><meta name="description" content="MyScriptName Server" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" /><meta name="theme-color" content="#000000" /><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"><link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.3/css/mdb.min.css" rel="stylesheet"></head><body><div class="container justify-content-center" style="margin-top:9em;margin-bottom:5em;"><div class="col-md"><div class="view"><img src="https://openvpn.net/wp-content/uploads/openvpn.jpg" class="card-img-top"><div class="mask rgba-white-slight"></div></div><div class="card"><div class="card-body"><h5 class="card-title">Config List</h5><br /><ul class="list-group"><li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Globe/TM <span class="badge light-blue darken-4">Android/iOS</span><br /><small> For EZ/GS Promo with WNP,SNS,FB and IG freebies</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/GTMConfig.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li><li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Globe/TM <span class="badge light-blue darken-4">PC/Modem</span><br /><small> For EZ/GS Promo with WNP,SNS,FB and IG freebies</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/GTM-PC-Config.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li><li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Sun <span class="badge light-blue darken-4">Android/iOS/PC/Modem</span><br /><small> For TU Promos</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/SunConfig.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li><li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Sun <span class="badge light-blue darken-4">Modem</span><br /><small> Without Promo/Noload</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/SunNoloadConfig.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li></ul></div></div></div></div></body></html>
 mySiteOvpn
@@ -695,12 +758,12 @@ function ConfStartup(){
  echo -e "0 4\t* * *\troot\treboot" > /etc/cron.d/b_reboot_job
 
  # Creating directory for startup script
- rm -rf /etc/jm051484
- mkdir -p /etc/jm051484
- chmod -R 755 /etc/jm051484
+ rm -rf /etc/KingKongVPN
+ mkdir -p /etc/KingKongVPN
+ chmod -R 755 /etc/KingKongVPN
  
  # Creating startup script using cat eof tricks
- cat <<'EOFSH' > /etc/jm051484/startup.sh
+ cat <<'EOFSH' > /etc/KingKongVPN/startup.sh
 #!/bin/bash
 # Setting server local time
 ln -fs /usr/share/zoneinfo/MyVPS_Time /etc/localtime
@@ -717,31 +780,31 @@ iptables -A INPUT -s $(wget -4qO- http://ipinfo.io/ip) -p tcp -m multiport --dpo
 # Deleting Expired SSH Accounts
 /usr/local/sbin/delete_expired &> /dev/null
 EOFSH
- chmod +x /etc/jm051484/startup.sh
+ chmod +x /etc/KingKongVPN/startup.sh
  
  # Setting server local time every time this machine reboots
- sed -i "s|MyVPS_Time|$MyVPS_Time|g" /etc/jm051484/startup.sh
+ sed -i "s|MyVPS_Time|$MyVPS_Time|g" /etc/KingKongVPN/startup.sh
 
  # 
  rm -rf /etc/sysctl.d/99*
 
  # Setting our startup script to run every machine boots 
  echo "[Unit]
-Description=jm051484 Startup Script
+Description=KingKongVPN Startup Script
 Before=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash /etc/jm051484/startup.sh
+ExecStart=/bin/bash /etc/KingKongVPN/startup.sh
 RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target" > /etc/systemd/system/jm051484.service
- chmod +x /etc/systemd/system/jm051484.service
+WantedBy=multi-user.target" > /etc/systemd/system/KingKongVPN.service
+ chmod +x /etc/systemd/system/KingKongVPN.service
  systemctl daemon-reload
- systemctl start jm051484
- systemctl enable jm051484 &> /dev/null
+ systemctl start KingKongVPN
+ systemctl enable KingKongVPN &> /dev/null
 
 # install ddos deflate
 cd
@@ -763,7 +826,7 @@ echo -e " Creating Menu scripts.."
 
 cd /usr/local/sbin/
 rm -rf {accounts,base-ports,base-ports-wc,base-script,bench-network,clearcache,connections,create,create_random,create_trial,delete_expired,diagnose,edit_dropbear,edit_openssh,edit_openvpn,edit_ports,edit_squid3,edit_stunnel4,locked_list,menu,options,ram,reboot_sys,reboot_sys_auto,restart_services,server,set_multilogin_autokill,set_multilogin_autokill_lib,show_ports,speedtest,user_delete,user_details,user_details_lib,user_extend,user_list,user_lock,user_unlock}
-wget -q 'https://raw.githubusercontent.com/jm051484/jm051484script/master/menu.zip'
+wget -q 'https://raw.githubusercontent.com/xiihaiqal/ssh/main/menu.zip'
 unzip -qq menu.zip
 rm -f menu.zip
 chmod +x ./*
@@ -772,18 +835,16 @@ sed -i 's|/etc/squid/squid.conf|/etc/privoxy/config|g' ./*
 sed -i 's|http_port|listen-address|g' ./*
 cd ~
 
-echo 'clear' > /etc/profile.d/jm051484.sh
-echo 'echo '' > /var/log/syslog' >> /etc/profile.d/jm051484.sh
-echo 'screenfetch -p -A Android' >> /etc/profile.d/jm051484.sh
-chmod +x /etc/profile.d/jm051484.sh
+echo 'clear' > /etc/profile.d/KingKongVPN.sh
+echo 'echo '' > /var/log/syslog' >> /etc/profile.d/KingKongVPN.sh
+echo 'screenfetch -p -A Android' >> /etc/profile.d/KingKongVPN.sh
+chmod +x /etc/profile.d/KingKongVPN.sh
 }
 
 function ScriptMessage(){
  echo -e " (｡◕‿◕｡) $MyScriptName Debian VPS Installer"
  echo -e " Open release version"
  echo -e ""
- echo -e " Original Script created by Bonveio"
- echo -e " Modified by jm051484"
  echo -e ""
 }
 
@@ -852,15 +913,15 @@ fi
  ConfStartup
 
  ## DNS maker plugin for SUN users(for vps script usage only)
- wget -qO dnsmaker "https://raw.githubusercontent.com/jm051484/jm051484script/master/DNSMaster/debian"
+ wget -qO dnsmaker "https://raw.githubusercontent.com/xiihaiqal/ssh/main/DNSMaster/debian"
  chmod +x dnsmaker
  ./dnsmaker
  rm -rf dnsmaker
  sed -i "s|http-proxy $IPADDR|http-proxy $(cat /tmp/abonv_mydns)|g" /var/www/openvpn/SunConfig.ovpn
  sed -i "s|remote $IPADDR|remote $(cat /tmp/abonv_mydns)|g" /var/www/openvpn/SunUDPConfig.ovpn
  curl -4sSL "$(cat /tmp/abonv_mydns_domain)" &> /dev/null
- mv /tmp/abonv_mydns /etc/jm051484/my_domain_name
- mv /tmp/abonv_mydns_id /etc/jm051484/my_domain_id
+ mv /tmp/abonv_mydns /etc/KingKongVPN/my_domain_name
+ mv /tmp/abonv_mydns_id /etc/KingKongVPN/my_domain_id
  rm -rf /tmp/abonv*
 
  # VPS Menu script v1.0
@@ -873,7 +934,7 @@ fi
  cd ~
 
  # Running sysinfo 
- bash /etc/profile.d/jm051484.sh
+ bash /etc/profile.d/KingKongVPN.sh
  
  # Showing script's banner message
  ScriptMessage
@@ -901,8 +962,8 @@ fi
  echo -e " http://$IPADDR:$OvpnDownload_Port/Configs.zip"
  echo -e ""
  echo -e " [For SUN Users]:"
- echo -e " Your DNS: $(cat /etc/jm051484/my_domain_name)"
- echo -e " Your DNS ID: $(cat /etc/jm051484/my_domain_id)"
+ echo -e " Your DNS: $(cat /etc/KingKongVPN/my_domain_name)"
+ echo -e " Your DNS ID: $(cat /etc/KingKongVPN/my_domain_id)"
  echo -e " * Keep your DNS ID in private, do not share your ID to anyone"
  echo -e ""
  echo -e ""
